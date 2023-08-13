@@ -388,26 +388,28 @@ const handleDrop = (e) => {
 };
 
 const playerId = (colorId) => {
-  for (let i=1;i<=2;i++) {
-    if (player[i].name == "") player[i].name = `Player ${i}`
-    if (player[i].color == colorId) return i
+  for (let i = 1; i <= 2; i++) {
+    if (player[i].name == "") player[i].name = `Player ${i}`;
+    if (player[i].color == colorId) return i;
   }
-  return false
-}
+  return false;
+};
 
 const optionSelect = (e) => {
   createAlert("reset", "update");
   if (e.target.innerText == "Game in Progress") {
-    let currentPlayer = playerId(turn)
+    let currentPlayer = playerId(turn);
     createAlert(`${player[currentPlayer].name}'s turn`, "turn");
     if (turnCount == 0) {
-    player[currentPlayer].name
-      ? createAlert(`${player[currentPlayer].name}, make your first drop`)
-      : createAlert(`Make your first drop`);
+      player[currentPlayer].name
+        ? createAlert(`${player[currentPlayer].name}, make your first drop`)
+        : createAlert(`Make your first drop`);
     } else {
       player[currentPlayer].name
-      ? createAlert(`${player[currentPlayer].name}, make the next drop. Turn ${turnCount}.`)
-      : createAlert(`Make the next drop - Turn ${turnCount}.`);
+        ? createAlert(
+            `${player[currentPlayer].name}, make the next drop. Turn ${turnCount}.`
+          )
+        : createAlert(`Make the next drop - Turn ${turnCount}.`);
     }
   }
   if (
