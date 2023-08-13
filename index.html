@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="css/main.css" />
     <script defer src="js/main.js"></script>
     <title>Connect Four - A Browser-Based Persuasion</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <main class="container container-fluid">
+      <header class="jumbotron jumbotron-fluid">
+        <h1 class="title display-4">Connect Four</h1>
+        <h2 class="subtitle lead" id="turn">&nbsp;</h2>
+        <h3 class="turn"></h3>
+      </header>
+      <div class="row">
+        <div class="gp-header" id="gameplay-header"></div>
+        <div class="col col-6" id="gameplay"></div>
+      </div>
+      <div class="row info-pane">
+        <p class="alert" id="alert">&nbsp;</p>
+        <div class="col col-6 messages" id="messages">
+          <form id="player-update">
+            <p id="instruction"></p>
+            <input id="player-input" />
+            <div id="colors"></div>
+            <div id="players"></div>
+          </form>
+        </div>
+        <div class="col col-6 controls" id="controls">
+          <button id="control-button" class="btn btn-light"></button>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
