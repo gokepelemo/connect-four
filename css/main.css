@@ -19,6 +19,7 @@ body {
 .container {
   width: 40rem;
   margin: 0 auto;
+  min-width: 40rem;
 }
 header {
   text-align: center;
