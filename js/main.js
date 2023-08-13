@@ -6,6 +6,10 @@ const COLORS = {
   yellow: 4,
   orange: 5,
   slateblue: 6,
+  brown: 7,
+  darkgoldenrod: 8,
+  darkred: 9,
+  navy: 10,
 };
 const DEFAULTTURN = -1;
 
