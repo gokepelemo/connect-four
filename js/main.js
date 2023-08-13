@@ -1,6 +1,14 @@
 /*---- constants ----*/
-const COLORS = { red: 1, green: 2, blue: 3, yellow: 4, orange: 5, slateblue: 6 };
+const COLORS = {
+  red: 1,
+  green: 2,
+  blue: 3,
+  yellow: 4,
+  orange: 5,
+  slateblue: 6,
+};
 const DEFAULTTURN = -1;
+
 /*---- state variables ----*/
 let turn, turnCount, board, winner, updateId, player;
 
@@ -15,6 +23,7 @@ const colorSelector = document.querySelector("#colors");
 const playerInput = document.querySelector("#player-input");
 const playerButtons = document.querySelector("#players");
 const updateMessage = document.querySelector("#instruction");
+
 /*---- functions ----*/
 const gameOver = () => {
   if (winner > 0) {
@@ -23,6 +32,7 @@ const gameOver = () => {
   }
   return false;
 };
+
 const createAlert = (msg, position) => {
   if (position == "turn") {
     msg == "reset"
@@ -36,16 +46,27 @@ const createAlert = (msg, position) => {
     msg == "reset" ? (alert.innerHTML = "&nbsp; ") : (alert.innerHTML = msg);
   }
 };
+
 const switchTurns = () => {
   if (gameOver()) return;
+  if (player[1].color == player[2].color) {
+    createAlert(`Both players can't have the same color. Let's reset.`);
+    init();
+    return;
+  }
   if (turn == player[1].color) {
     turn = player[2].color;
-    createAlert(`${player[2].name}'s turn`, `turn`);
+    player[2].name != ""
+      ? createAlert(`${player[2].name}'s turn`, `turn`)
+      : createAlert(`Player 2's turn`, `turn`);
   } else if (turn == player[2].color) {
     turn = player[1].color;
-    createAlert(`${player[1].name}'s turn`, `turn`);
+    player[1].name != ""
+      ? createAlert(`${player[1].name}'s turn`, `turn`)
+      : createAlert(`Player 1's turn`, `turn`);
   }
 };
+
 const playPosition = (row, column) => {
   board[row][column] = turn;
   document.getElementById(
@@ -53,6 +74,7 @@ const playPosition = (row, column) => {
   ).style.backgroundColor = `var(--${turn})`;
   checkPosition(row, column);
 };
+
 const playTurn = (col) => {
   if (gameOver()) return;
   if (board[board.length - 1][col] > 0) return;
@@ -66,6 +88,7 @@ const playTurn = (col) => {
     }
   }
 };
+
 const horizontalCheckRight = (row, column) => {
   if (column + 4 > board[0].length) return 0;
   let count = 0,
@@ -79,15 +102,14 @@ const horizontalCheckRight = (row, column) => {
       break;
     }
     if (count == 4) {
-      console.log(`Passed the Horizontal Check right`);
       result.push(true, "right");
       return result;
       break;
     }
   }
-  // console.log(`Completed the Horizontal Check right`);
   return 0;
 };
+
 const horizontalCheckLeft = (row, column) => {
   if (column - 4 < -1) return 0;
   (count = 0), (result = []);
@@ -99,18 +121,15 @@ const horizontalCheckLeft = (row, column) => {
       break;
     }
     if (count == 4) {
-      console.log(`Passed the Horizontal Check left`);
       result.push(true, "left");
       return result;
       break;
     }
   }
-  // console.log(`Completed the Horizontal Check left`);
   return 0;
 };
+
 const verticalCheck = (row, column) => {
-  // console.log(`Doing the Vertical Check`);
-  // 2D position arr[row][column]
   (count = 0), (result = []);
   for (let i = row; i < board.length; i++) {
     if (board[i][column] == turn) {
@@ -136,18 +155,15 @@ const verticalCheck = (row, column) => {
       continue;
     }
     if (count == 4) {
-      //console.log(`Passed the Vertical Check, South`)
       result.push(true, "south");
       return result;
       break;
     }
   }
-  //console.log(`Completed the Vertical Check`)
   return 0;
 };
+
 const diagonalNECheck = (row, column) => {
-  //console.log(`Doing the Diagonal NE Check`)
-  // 2D position arr[row][column]
   if (row + 4 > 5) return 0;
   if (column + 4 > 6) return 0;
   let posState = board[row][column],
@@ -164,18 +180,15 @@ const diagonalNECheck = (row, column) => {
       break;
     }
     if (count == 4) {
-      //console.log(`Passed the Diagonal NE Check`)
       result.push(true, "northeast");
       return result;
       break;
     }
   }
-  //console.log(`Completed the Diagonal NE Check`)
   return 0;
 };
+
 const diagonalNWCheck = (row, column) => {
-  //console.log(`Doing the Diagonal NW Check`)
-  // 2D position arr[row][column]
   if (row + 4 > 5) return 0;
   if (column - 4 < -1) return 0;
   let posState = board[row][column],
@@ -192,18 +205,15 @@ const diagonalNWCheck = (row, column) => {
       break;
     }
     if (count == 4) {
-      //console.log(`Completed the Diagonal NW Check`)
       result.push(true, "northwest");
       return result;
       break;
     }
   }
-  //console.log(`Completed the Diagonal NW Check`)
   return 0;
 };
+
 const diagonalSWCheck = (row, column) => {
-  //console.log(`Doing the Diagonal SW Check`)
-  // 2D position arr[row][column]
   if (row - 4 < -1) return 0;
   if (column - 4 < -1) return 0;
   let posState = board[row][column],
@@ -220,18 +230,15 @@ const diagonalSWCheck = (row, column) => {
       break;
     }
     if (count == 4) {
-      //console.log(`Passed the Diagonal SE Check`)
       result.push(true, "southwest");
       return result;
       break;
     }
   }
-  //console.log(`Completed the Diagonal SW Check`)
   return 0;
 };
+
 const diagonalSECheck = (row, column) => {
-  //console.log(`Doing the Diagonal SE Check`)
-  // 2D position arr[row][column]
   if (row - 4 < -1) return 0;
   if (column + 4 > 6) return 0;
   let count = 0,
@@ -249,15 +256,14 @@ const diagonalSECheck = (row, column) => {
       break;
     }
     if (count == 4) {
-      //console.log(`Passed the Diagonal SE Check`)
       result.push(true, "southeast");
       return result;
       break;
     }
   }
-  //console.log(`Completed the Diagonal SE Check`)
   return 0;
 };
+
 const checkPosition = (row, column) => {
   let playerName = player[1].color == turn ? player[1].name : player[2].name;
   if (diagonalSECheck(row, column) != 0) {
@@ -292,6 +298,7 @@ const checkPosition = (row, column) => {
     return 0;
   }
 };
+
 const renderBoard = () => {
   let gameBoard = "";
   for (let i = board.length - 1; i >= 0; i--) {
@@ -312,6 +319,7 @@ const renderBoard = () => {
     gamePlayHeader.appendChild(playButton);
   }
 };
+
 const updatePlayer = (id, prop, value) => {
   if (prop == "name") {
     player[id].name = value;
@@ -320,9 +328,10 @@ const updatePlayer = (id, prop, value) => {
   }
   return 0;
 };
+
 const renderControls = () => {
   colorSelector.innerHTML = "";
-  for (item in COLORS) {
+  for (let item in COLORS) {
     let colorButton = document.createElement("div");
     colorButton.id = `color-${COLORS[item]}`;
     colorButton.classList.add("color-button");
@@ -330,7 +339,7 @@ const renderControls = () => {
     colorButton.style.backgroundColor = `var(--${COLORS[item]})`;
     colorSelector.appendChild(colorButton);
   }
-  for (item in player) {
+  for (let item in player) {
     let playerUpdateButton = document.createElement("div");
     playerUpdateButton.id = `player-${item}`;
     playerUpdateButton.classList.add(`player`);
@@ -339,10 +348,12 @@ const renderControls = () => {
   }
   document.querySelector(`#player-${updateId}`).classList.add("active");
 };
+
 const render = () => {
   renderControls();
   renderBoard();
 };
+
 const resetBoard = () => {
   board = [
     [0, 0, 0, 0, 0, 0, 0],
@@ -366,6 +377,7 @@ const resetBoard = () => {
   createAlert(`Player ${updateId}, choose a name and color`, "update");
   document.querySelector("#player-update").style.display = "";
 };
+
 const handleDrop = (e) => {
   if (turn == -1) return;
   if (e.target.classList.contains("play-column")) {
@@ -374,43 +386,62 @@ const handleDrop = (e) => {
     switchTurns();
   }
 };
+
+const playerId = (colorId) => {
+  for (let i=1;i<=2;i++) {
+    if (player[i].name == "") player[i].name = `Player ${i}`
+    if (player[i].color == colorId) return i
+  }
+  return false
+}
+
 const optionSelect = (e) => {
   createAlert("reset", "update");
-  if (e.target.innerText == "Start") {
-    createAlert(`${player[turn].name}'s turn`,"turn")
-    player[turn].name ? createAlert(`${player[turn].name}, make your first drop`) : createAlert(`Make you first drop`);
+  if (e.target.innerText == "Game in Progress") {
+    let currentPlayer = playerId(turn)
+    createAlert(`${player[currentPlayer].name}'s turn`, "turn");
+    if (turnCount == 0) {
+    player[currentPlayer].name
+      ? createAlert(`${player[currentPlayer].name}, make your first drop`)
+      : createAlert(`Make your first drop`);
+    } else {
+      player[currentPlayer].name
+      ? createAlert(`${player[currentPlayer].name}, make the next drop. Turn ${turnCount}.`)
+      : createAlert(`Make the next drop - Turn ${turnCount}.`);
+    }
   }
   if (
     e.target.innerText == "Create Player 1" ||
     e.target.innerText == "Create Player 2"
-    ) {
-      document.querySelectorAll(".color-button").forEach((item) => {
-        if (item.classList.contains("active")) {
-          player[updateId].color = item.dataset.color;
-          item.style.display = "none";
-        }
-      });
-      player[updateId].name = playerInput.value;
-      playerInput.value = "";
-      if (updateId == 1) {
-        updateId++;
-        controlButton.innerHTML = `Create Player ${updateId}`;
-        document.querySelectorAll(".player").forEach((item) => {
-          item.classList.remove("active");
-        });
-        document.querySelector(`#player-${updateId}`).classList.add("active");
-        createAlert(`Player ${updateId}, choose a name and color`, "update");
+  ) {
+    document.querySelectorAll(".color-button").forEach((item) => {
+      if (item.classList.contains("active")) {
+        player[updateId].color = item.dataset.color;
+        item.style.display = "none";
       }
-    } else if (e.target.innerText == "Play Again") {
-      init();
+    });
+    player[updateId].name = playerInput.value;
+    playerInput.value = "";
+    if (updateId == 1) {
+      updateId++;
+      controlButton.innerHTML = `Create Player ${updateId}`;
+      document.querySelectorAll(".player").forEach((item) => {
+        item.classList.remove("active");
+      });
+      document.querySelector(`#player-${updateId}`).classList.add("active");
+      createAlert(`Player ${updateId}, choose a name and color`, "update");
     }
-    if (player[1].color > -1 && player[2].color > -1) {
-      e.target.innerText = "Start";
-      document.querySelector("#player-update").style.display = "none";
-      turn = player[1].color;
-    }
-    if (turn > 0) createAlert(`${player[turn].name}'s turn`,"turn")
-  };
+  } else if (e.target.innerText == "Play Again") {
+    init();
+  }
+  if (player[1].color > -1 && player[2].color > -1 && turnCount == 0) {
+    e.target.innerText = "Game in Progress";
+    document.querySelector("#player-update").style.display = "none";
+    turn = player[1].color;
+  }
+  if (turn > 0) createAlert(`${player[playerId(turn)].name}'s turn`, "turn");
+};
+
 const playerSelect = (e) => {
   if (e.target.innerText == "Player 1") {
     document.querySelector("#player-2").classList.remove("active");
@@ -423,6 +454,7 @@ const playerSelect = (e) => {
   }
   controlButton.innerHTML = `Create Player ${updateId}`;
 };
+
 const colorSelect = (e) => {
   if (e.target.id == "colors") return;
   document.querySelectorAll(".color-button").forEach((item) => {
@@ -430,15 +462,25 @@ const colorSelect = (e) => {
   });
   e.target.classList.add("active");
 };
+
 const rollOverTransition = (e) => {
-  if (e.target.classList.contains("play-column") && !e.target.classList.contains("active-drop") && turn > 0) {
+  if (
+    e.target.classList.contains("play-column") &&
+    !e.target.classList.contains("active-drop") &&
+    turn > 0
+  ) {
     e.target.style.backgroundColor = `var(--${turn})`;
     e.target.classList.add("active-drop");
-  } else if (e.target.classList.contains("play-column") && e.target.classList.contains("active-drop") && turn > 0) {
+  } else if (
+    e.target.classList.contains("play-column") &&
+    e.target.classList.contains("active-drop") &&
+    turn > 0
+  ) {
     e.target.style.backgroundColor = `var(--default)`;
     e.target.classList.remove("active-drop");
   }
 };
+
 const init = () => {
   resetBoard();
   render();
