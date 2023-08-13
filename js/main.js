@@ -107,6 +107,7 @@ const horizontalCheckRight = (row, column) => {
       break;
     }
     if (count == 4) {
+      console.log(`true, right`)
       result.push(true, "right");
       return result;
       break;
@@ -126,6 +127,7 @@ const horizontalCheckLeft = (row, column) => {
       break;
     }
     if (count == 4) {
+      console.log(`true, left`)
       result.push(true, "left");
       return result;
       break;
@@ -143,6 +145,7 @@ const verticalCheck = (row, column) => {
       break;
     }
     if (count > 3) {
+      console.log(`true, north`)
       result.push(true, "north");
       return result;
       break;
@@ -160,6 +163,7 @@ const verticalCheck = (row, column) => {
       continue;
     }
     if (count == 4) {
+      console.log(`true, south`)
       result.push(true, "south");
       return result;
       break;
@@ -171,7 +175,6 @@ const verticalCheck = (row, column) => {
 const diagonalNECheck = (row, column) => {
   if (row + 4 > 5) return 0;
   if (column + 4 > 6) return 0;
-  let posState = board[row][column],
     count = 0,
     result = [],
     rI = row,
@@ -185,6 +188,7 @@ const diagonalNECheck = (row, column) => {
       break;
     }
     if (count == 4) {
+      console.log(`true, northeast`)
       result.push(true, "northeast");
       return result;
       break;
@@ -210,6 +214,7 @@ const diagonalNWCheck = (row, column) => {
       break;
     }
     if (count == 4) {
+      console.log(`true, northwest`)
       result.push(true, "northwest");
       return result;
       break;
@@ -235,6 +240,7 @@ const diagonalSWCheck = (row, column) => {
       break;
     }
     if (count == 4) {
+      console.log(`true, southwest`)
       result.push(true, "southwest");
       return result;
       break;
@@ -261,6 +267,7 @@ const diagonalSECheck = (row, column) => {
       break;
     }
     if (count == 4) {
+      console.log(`true, southeast`)
       result.push(true, "southeast");
       return result;
       break;
@@ -336,6 +343,7 @@ const updatePlayer = (id, prop, value) => {
 
 const renderControls = () => {
   colorSelector.innerHTML = "";
+  playerButtons.innerHTML = "";
   for (let item in COLORS) {
     let colorButton = document.createElement("div");
     colorButton.id = `color-${COLORS[item]}`;
