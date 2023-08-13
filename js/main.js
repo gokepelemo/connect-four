@@ -54,8 +54,8 @@ const createAlert = (msg, position) => {
 const switchTurns = () => {
   if (gameOver()) return;
   if (player[1].color == player[2].color) {
-    createAlert(`Both players can't have the same color. Let's reset.`);
     init();
+    createAlert(`Both players can't have the same color. Let's reset.`);
     return;
   }
   if (turn == player[1].color) {
@@ -107,7 +107,7 @@ const horizontalCheckRight = (row, column) => {
       break;
     }
     if (count == 4) {
-      console.log(`true, right`)
+      console.log(`true, right`);
       result.push(true, "right");
       return result;
       break;
@@ -127,7 +127,7 @@ const horizontalCheckLeft = (row, column) => {
       break;
     }
     if (count == 4) {
-      console.log(`true, left`)
+      console.log(`true, left`);
       result.push(true, "left");
       return result;
       break;
@@ -145,7 +145,7 @@ const verticalCheck = (row, column) => {
       break;
     }
     if (count > 3) {
-      console.log(`true, north`)
+      console.log(`true, north`);
       result.push(true, "north");
       return result;
       break;
@@ -163,7 +163,7 @@ const verticalCheck = (row, column) => {
       continue;
     }
     if (count == 4) {
-      console.log(`true, south`)
+      console.log(`true, south`);
       result.push(true, "south");
       return result;
       break;
@@ -175,10 +175,7 @@ const verticalCheck = (row, column) => {
 const diagonalNECheck = (row, column) => {
   if (row + 4 > 5) return 0;
   if (column + 4 > 6) return 0;
-    count = 0,
-    result = [],
-    rI = row,
-    cI = column;
+  (count = 0), (result = []), (rI = row), (cI = column);
   for (let i = 0; i <= 4; i++) {
     if (board[rI][cI] == turn) {
       count++;
@@ -188,7 +185,7 @@ const diagonalNECheck = (row, column) => {
       break;
     }
     if (count == 4) {
-      console.log(`true, northeast`)
+      console.log(`true, northeast`);
       result.push(true, "northeast");
       return result;
       break;
@@ -214,7 +211,7 @@ const diagonalNWCheck = (row, column) => {
       break;
     }
     if (count == 4) {
-      console.log(`true, northwest`)
+      console.log(`true, northwest`);
       result.push(true, "northwest");
       return result;
       break;
@@ -240,7 +237,7 @@ const diagonalSWCheck = (row, column) => {
       break;
     }
     if (count == 4) {
-      console.log(`true, southwest`)
+      console.log(`true, southwest`);
       result.push(true, "southwest");
       return result;
       break;
@@ -267,7 +264,7 @@ const diagonalSECheck = (row, column) => {
       break;
     }
     if (count == 4) {
-      console.log(`true, southeast`)
+      console.log(`true, southeast`);
       result.push(true, "southeast");
       return result;
       break;
@@ -393,6 +390,7 @@ const resetBoard = () => {
 
 const handleDrop = (e) => {
   if (turn == -1) return;
+  fixNames();
   if (e.target.classList.contains("play-column")) {
     turnCount++;
     playTurn(e.target.dataset.column);
@@ -402,12 +400,17 @@ const handleDrop = (e) => {
 
 const playerId = (colorId) => {
   for (let i = 1; i <= 2; i++) {
-    if (player[i].name == "") player[i].name = `Player ${i}`;
+    fixNames();
     if (player[i].color == colorId) return i;
   }
   return false;
 };
 
+const fixNames = () => {
+  for (let i = 1; i <= 2; i++) {
+    if (player[i].name == "") player[i].name = `Player ${i}`;
+  }
+};
 const optionSelect = (e) => {
   createAlert("reset", "update");
   if (e.target.innerText == "Game in Progress") {
@@ -435,7 +438,7 @@ const optionSelect = (e) => {
         item.style.display = "none";
       }
     });
-    player[updateId].name = playerInput.value;
+    playerInput.value ? player[updateId].name = playerInput.value : player[updateId].name = `Player 1`
     playerInput.value = "";
     if (updateId == 1) {
       updateId++;
