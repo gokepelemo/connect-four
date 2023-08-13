@@ -69,6 +69,7 @@ const switchTurns = () => {
       ? createAlert(`${player[1].name}'s turn`, `turn`)
       : createAlert(`Player 1's turn`, `turn`);
   }
+  createAlert(`reset`);
 };
 
 const playPosition = (row, column) => {
