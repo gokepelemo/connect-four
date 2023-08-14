@@ -19,12 +19,12 @@ let turn, turnCount, board, winner, updateId, player;
 /*---- cached elements ----*/
 const playButtons = document.querySelector("#gameplay>.positions");
 const gamePlay = document.querySelector("#gameplay");
-const gamePlayHeader = document.querySelector("#gameplay-header");
-const controlButton = document.querySelector("#control-button");
+const gamePlayHeader = document.querySelector("#gameplayheader");
+const controlButton = document.querySelector("#controlbutton");
 const alert = document.querySelector("#alert");
 const turnMessage = document.querySelector("#turn");
 const colorSelector = document.querySelector("#colors");
-const playerInput = document.querySelector("#player-input");
+const playerInput = document.querySelector("#playerinput");
 const playerButtons = document.querySelector("#players");
 const updateMessage = document.querySelector("#instruction");
 
@@ -110,7 +110,6 @@ const horizontalCheckRight = (row, column) => {
       console.log(`true, right`);
       result.push(true, "right");
       return result;
-      break;
     }
   }
   return 0;
@@ -130,7 +129,6 @@ const horizontalCheckLeft = (row, column) => {
       console.log(`true, left`);
       result.push(true, "left");
       return result;
-      break;
     }
   }
   return 0;
@@ -148,7 +146,6 @@ const verticalCheck = (row, column) => {
       console.log(`true, north`);
       result.push(true, "north");
       return result;
-      break;
     }
   }
   count = 0;
@@ -166,7 +163,6 @@ const verticalCheck = (row, column) => {
       console.log(`true, south`);
       result.push(true, "south");
       return result;
-      break;
     }
   }
   return 0;
@@ -188,7 +184,6 @@ const diagonalNECheck = (row, column) => {
       console.log(`true, northeast`);
       result.push(true, "northeast");
       return result;
-      break;
     }
   }
   return 0;
@@ -214,7 +209,6 @@ const diagonalNWCheck = (row, column) => {
       console.log(`true, northwest`);
       result.push(true, "northwest");
       return result;
-      break;
     }
   }
   return 0;
@@ -240,7 +234,6 @@ const diagonalSWCheck = (row, column) => {
       console.log(`true, southwest`);
       result.push(true, "southwest");
       return result;
-      break;
     }
   }
   return 0;
@@ -267,7 +260,6 @@ const diagonalSECheck = (row, column) => {
       console.log(`true, southeast`);
       result.push(true, "southeast");
       return result;
-      break;
     }
   }
   return 0;
@@ -385,7 +377,7 @@ const resetBoard = () => {
   createAlert("reset");
   createAlert("reset", "turn");
   createAlert(`Player ${updateId}, choose a name and color`, "update");
-  document.querySelector("#player-update").style.display = "";
+  document.querySelector("#playerupdate").style.display = "";
 };
 
 const handleDrop = (e) => {
@@ -454,7 +446,7 @@ const optionSelect = (e) => {
   }
   if (player[1].color > -1 && player[2].color > -1 && turnCount == 0) {
     e.target.innerText = "Game in Progress";
-    document.querySelector("#player-update").style.display = "none";
+    document.querySelector("#playerupdate").style.display = "none";
     turn = player[1].color;
   }
   if (turn > 0) createAlert(`${player[playerId(turn)].name}'s turn`, "turn");
